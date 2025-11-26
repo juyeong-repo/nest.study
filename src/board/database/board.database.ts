@@ -28,12 +28,57 @@ export class BoardDatabase {
     }
 
     try {
+      await this.db.getData('/metadata');
+    } catch (error) {
+      // 메타데이터가 없으면 기본값 설정
+      await this.db.push('/metadata', {
+        version: '1.0.0',
+        createdAt: new Date().toISOString(),
+        totalBoards: 0
+      }, true);
+    }
+
+    try {
       await this.db.getData('/nextId');
     } catch (error) {
       // 에러 발생하면 /nextId 에 push
       await this.db.push('/nextId', 1, true);
     }
+
+
   }
+
+  // 메타데이터 
+  async setMetadata(metadata: any): Promise<void> {
+    await this.db.push('/metadata', metadata, true);
+  }
+
+  // 메타데이터 조회
+  async getMetadata(): Promise<any> {
+    try {
+      return await this.db.getData('/metadata');
+    } catch (error) {
+      return null;
+    }
+  }
+
+
+// 메타데이터 업데이트
+  async updateMetadata(metadata: any): Promise<void> {
+    await this.db.push('/metadata', metadata, true);
+  }
+
+ // 게시글 총 개수 업데이트
+  async updateTotalBoards(): Promise<void> {
+    const boards = await this.findAll();
+    const metadata = await this.getMetadata();
+    await this.updateMetadata({
+      ...metadata,
+      totalBoards: boards.length,
+      lastUpdated: new Date().toISOString()
+    });
+  }
+  
 
   // 각 함수들이 sql 쿼리 역할
   async getNextId(): Promise<number> {

@@ -58,14 +58,14 @@ describe('BoardService', () => {
         content: 'Content 2',
         author: 'Author 2',
       };
-      const dto3: CreateBoardDto = {
-        title: 'Title 3',
-        content: 'Content 3',
-        author: 'Author 3',
-      };
+      // const dto3: CreateBoardDto = {
+      //   title: 'Title 3',
+      //   content: 'Content 3',
+      //   author: 'Author 3',
+      // };
 
       const board1 = await service.create(dto1);
-      const board2 = await service.create(dto3);
+      const board2 = await service.create(dto2);
       // expect 기대값 확인
       expect(board1.id).toBe(1);
       expect(board2.id).toBe(2);

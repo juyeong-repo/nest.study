@@ -21,7 +21,16 @@ export class BoardService {
     });
 
     // 결국 typeORM, sql이랑 똑같음
-    return await this.boardDatabase.save(board);
+    // return await this.boardDatabase.save(board);
+
+    await this.boardDatabase.save(board);
+  
+    // 메타데이터 업데이트!
+    await this.boardDatabase.updateTotalBoards();
+    
+  return board;
+
+    
   }
 
   async findAll(): Promise<Board[]> {

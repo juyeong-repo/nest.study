@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm test:*)",
+      "Bash(del test-db.js testDB.json)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
